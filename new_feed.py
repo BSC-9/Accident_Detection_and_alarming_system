@@ -1,7 +1,5 @@
 import tensorflow as tf
-import pandas as pd
 from tensorflow import keras
-import matplotlib.pyplot as plt
 from new_message import *
 import numpy as np
 from keras.models import model_from_json
@@ -18,7 +16,7 @@ loaded_model.load_weights("model_weights.h5")
 font = cv2.FONT_HERSHEY_SIMPLEX
 
 def running():
-    video = cv2.VideoCapture('Untitled video - Made with Clipchamp (1).mp4')
+    video = cv2.VideoCapture(0)
     while True:
         ret, frame = video.read()
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
