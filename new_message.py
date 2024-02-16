@@ -1,34 +1,29 @@
-import time
-from azure.iot.device import IoTHubDeviceClient, Message
-import base64
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.image import MIMEImage
+
 def send_email_with_attachment(frame):
-    CONNECTION_STRING = "HostName=jetson-nano.azure-devices.net;DeviceId=lap;SharedAccessKey=CsIolHcKWVI5SGksZIa809o/gz4wd/hboAIoTFiZZbo="
-    IMAGE_FILE_PATH = frame  # Path to your image file
+    # Email configurations
+    sender_email = "saigopalvallu7@gmail.com"
+    receiver_email = "gopalvalluintern@gmail.com"
+    password = "wwlh wrpw jlvz yoad"
 
-    def iothub_client_init():
-        client = IoTHubDeviceClient.create_from_connection_string(CONNECTION_STRING)
-        return client
+    # Create a multipart message
+    msg = MIMEMultipart()
+    msg['From'] = sender_email
+    msg['To'] = receiver_email
+    msg['Subject'] = "Accident Detected!"
 
-    def send_image(client):
-        while True:
-            try:
-                with open(IMAGE_FILE_PATH, "rb") as image_file:
-                    image_data = image_file.read()
-                    encoded_image = base64.b64encode(image_data)
+    # Attach the frame as an image
+    img = MIMEImage(frame, name='accident_frame.jpg')
+    msg.attach(img)
 
-                msg = Message(encoded_image)
-                print("Sending image message...")
-                client.send_message(msg)
-                print("Image message successfully sent to Azure IoT Hub.")
-                time.sleep(5)  # Send message every 5 seconds
-            except Exception as e:
-                print("Error sending image message:", e)
-                time.sleep(10)
+    # Connect to the SMTP server
+    with smtplib.SMTP_SSL('smtp.gmail.com', 465) as server:
+        server.login(sender_email, password)
+        server.send_message(msg)
 
-    if __name__ == "__main__":
-        try:
-            client = iothub_client_init()
-            send_image(client)
-        except KeyboardInterrupt:
-            print("IoT Hub client stopped")
+    print("Email sent successfully!")
 
+# Modify your code to use this function
