@@ -71,9 +71,9 @@ def send_email(image_name):
 
 # Define the payload data
     payload_data = {
-        "sender_email": "saigopalvallu7@gmail.com",
+        "sender_email": "bc0985@srmist.edu.in",
         "password": "wyedsfshankpetlj",
-        "reciever_email": "gopalvalluintern@gmail.com",
+        "reciever_email": "balajisc@gmail.com",
         "image_name": image_name,
     # Corrected key name
     }
@@ -91,3 +91,4 @@ def send_email(image_name):
 
 if __name__ == '__main__':
     running()
+
